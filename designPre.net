@@ -1,0 +1,103 @@
+* C:\Users\choeoliv\IFX\Oliver\04. Simulation\Simetrix\Eon Eoff\model for plecs.sxsch
+V1 V1_P V1_N {V1}
+V2 V1_N 0 {V2}
+R1 R3_N V5_P {R1}
+R2 R2_P V5_P {R2}
+R3 V5_N R3_N {R3}
+V5 V5_P V5_N  Pulse(0 15 100u {tr} {tf} 300u)
+D1 R3_N R2_P D1n4148
+X$Q1 Q1_D R3_N V5_N BSC054N04NS_L1-Q1 pinnames: D G S
+X$Q2 Q2_D 0 0 BSC054N04NS_L1 pinnames: D G S
+I1 V5_N V1_N {I1}
+V$IPROBE1 V1_P Q1_D 0.0 
+.GRAPH IPROBE1#p axisType="grid" axisName="ID" persistence=-1 curveLabel="IDQ1" analysis="tran|ac|dc"
++ xLog="auto" yLog="lin"  nowarn=true disabled=false 
+V$IPROBE2 V5_N Q2_D 0.0 
+.GRAPH IPROBE2#p axisType="grid" axisName="ID_20V" persistence=-1 curveLabel="IDQ2"
++ analysis="tran|ac|dc" xLog="auto" yLog="lin"  nowarn=true disabled=false 
+.GRAPH "V(Q1_D)-V(V5_N)" axisType="auto" persistence=-1 curveLabel="VdsQ1" analysis="tran|ac|dc"
++ xLog="auto" yLog="auto"  nowarn=true disabled=false 
+.GRAPH "V(R3_N)-V(V5_N)" axisType="auto" persistence=-1 curveLabel="Vgate" analysis="tran|ac|dc"
++ xLog="auto" yLog="auto"  nowarn=true disabled=false 
+.GRAPH "V(Q2_D)-V(0)" axisType="auto" persistence=-1 curveLabel="VdsQ2" analysis="tran|ac|dc"
++ xLog="auto" yLog="auto"  nowarn=true disabled=false 
+.TRAN 500u
+.temp 25
+.PARAM tr=60n
+.PARAM tf=26n
+.PARAM R1=100
+.PARAM R2=68
+.PARAM R3=10k
+.PARAM V1=10
+.PARAM V2=10
+.PARAM I1=10
+.subckt BSC054N04NS_L1-Q1  drain gate source PARAMS: dVth=0 dRdson=0 dgfs=0 dC=0 Ls=1n
++ Ld=1n Lg=3n
+.PARAM Rs=567u      Rg=1.5       Rd=50u       Rm=332u
+.PARAM Inn=50       Unn=10       Rmax=5.4m    gmin=34
+.PARAM act=2.724
+X1 d1 g s Tj S4_40_k_var1 PARAMS: a {act} dVth {dVth} dR {dRdson} dgfs {dgfs} Inn
++ {Inn} Unn {Unn} Rmax {Rmax} gmin {gmin} Rs {Rs} Rp {Rd} dC {dC} Rm {Rm}
+Rg    g1     g    {Rg}   
+Lg    gate   g1   {Lg*if(dgfs==99,0,1)}
+Gs    s1     s    VALUE={V(s1,s)/(Rs*(1+(limit(V(Tj),-200,999)-25)*4m)-Rm)}
+Rsa   s1     s    1Meg
+Ls    source s1   {Ls*if(dgfs==99,0,1)}
+Rda   d1     d2   {Rd}
+Ld    drain  d2   {Ld*if(dgfs==99,0,1)}
+E1    Tj     w      VALUE={TEMP}
+R1    w      0      1u
+.subckt S4_40_k_var1  dd g s0 Tj PARAMS: a=1 dVth=0 dR=0 dgfs=0 Inn=1 Unn=1 Rmax=1
++ gmin=1 Rs=1 Rp=1 dC=0 Rm=1u
+.PARAM  Fm=0.3       Fn=0.5      al=1
+.PARAM  c=1.9425     Vth0=4.6    auth=3.986m
+.PARAM  UT=100m      ab=22m      lB=-23       UB=45.2
+.PARAM  b0=75.3      p0=7.261     p1=-20.6m   p2=36u     
+.PARAM  Rd=7.33m     nmu=3       Tref=298     T0=273       lnIsj=-29.6
+.PARAM  ndi=1.097    Rdi=1.82m   nmu2=0.588   ta=3n        td=20n
+.PARAM  Rf=0.63      nmu3=1.074
+.PARAM  f1=140p      f2=600p     f3=760p      U0=12        nc=2    nd=1.25
+.PARAM  g1=0.15      bb=1        remp=0.01p   f2r=250p
+.PARAM  kbq=85.8u
+.PARAM  Vmin=3.6     Vmax=5.6    dCmax=0.33
+.PARAM  Vth={Vth0+(Vmax-Vth0)*limit(dVth,0,1)-(Vmin-Vth0)*limit(dVth,-1,0)}
+.PARAM  q0={b0*((T0/Tref)**nmu3)*a}
+.PARAM  q1={(Unn-Inn*Rs-Vth0)*q0}
+.PARAM  q2={(Fm*SQRT(0.4)-c)*Inn*q0}
+.PARAM  Rlim={(q1+2*q2*Rmax-SQRT(q1**2+4*q2))/(2*q2)}
+.PARAM  dRd={Rd/a+if(dVth==0,limit(dR,0,1)*max(Rlim-Rd/a-Rs-Rp,0),0)}
+.PARAM  bm={c/((1/gmin-Rs)**2*Inn*a*(T0/Tref)**nmu3)}
+.PARAM  bet={b0+(b0-bm)*if(dR==0,if(dVth==0,limit(dgfs,-1,0),0),0)}
+.PARAM  dC1={1+dCmax*limit(dC,0,1)}
+.PARAM  dC2={1+1.5*dCmax*limit(dC,0,1)}
+.PARAM  Cox={f1*a*dC2}
+.PARAM  Cox1={remp*SQRT(a)*dC2}
+.PARAM  Cds0={(f2*a+f2r*SQRT(a))*dC1}
+.PARAM  Cgs0={f3*a*dC1}
+.PARAM  dRdi={Rdi/a}
+.FUNC  I0(Uee,p,pp,z1)  {if(Uee>pp,(Uee-c*z1)*z1,p*(pp-p)/c*exp((Uee-pp)/p))}
+.FUNC  Ig(Uds,T,p,Uee)  {bet*(T0/T)**nmu3*I0(Uee,p,min(2*p,p+c*Uds),min(Uds,Uee/(2*c)))}
+.FUNC  J(d,g,T,da)   {a*(sgn(d)*Ig(da,T,(p0+(p1+p2*T)*T)*kbq*T,g-Vth+auth*(T-Tref)+Fm*da**Fn+1*limit(-d,0,1)))}
+E_Edg     d   ox  VALUE {max(V(d,g),-bb)-(1/(g1*(1-nc))*((1/(1+g1*max(V(d,g)+bb,0)))**(nc-1)-(1/(1+g1*bb))**(nc-1)))}
+C_Cdg    ox   g   {Cox}
+C_Cdg1   d    g   {Cox1}
+E_Eds    d    edep  VALUE {V(d,s)-1/(1-nd)*U0*((limit(1+V(d,s)/U0,0,2*UB))**(1-nd)-1)}
+C_Cds  edep    s  {Cds0*0.99}
+Dbody s dd dbody
+.model dbody D (BV= {UB},CJO ={Cds0/100},TT ={ta},IS ={a*exp(lnIsj)} m=0.3 RS={dRdi}
++ )
+C_Cgs   g    s   {Cgs0}
+G_chan    d    s VALUE={J(V(d,s),V(g,s),T0+limit(V(Tj),-200,300),(SQRT(1+4*al*abs(V(d,s)))-1)/2/al)}
+G_RMos   dd    d  VALUE={V(dd,d)/(Rf*dRd+(1-Rf)*dRd*((limit(V(Tj),-200,999)+T0)/Tref)**nmu)}
+R1        g    s  1G
+Rd01      d    s  500Meg
+Rd03     dd    d  1k
+Rd04     g     d  500Meg
+Rmet      s    s0 {Rm}  TC=4m
+Rx Tj 0 1k
+.ends S4_40_k_var1
+
+.ends BSC054N04NS_L1-Q1
+
+.end
+

@@ -1,0 +1,115 @@
+*/*******************************************************************************
+* Copyright (c) 2015-2021, Infineon Technologies AG                            **
+* All rights reserved.                                                         **
+*                                                                              **
+* Redistribution and use in source and binary forms, with or without           **
+* modification,are permitted provided that the following conditions are met:   **
+*                                                                              **
+* *Redistributions of source code must retain the above copyright notice,      **
+* this list of conditions and the following disclaimer.                        **
+* *Redistributions in binary form must reproduce the above copyright notice,   **
+* this list of conditions and the following disclaimer in the documentation    **
+* and/or other materials provided with the distribution.                       **
+* *Neither the name of the copyright holders nor the names of its contributors **
+* may be used to endorse or promote products derived from this software without**
+* specific prior written permission.                                           **
+*                                                                              **
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"  **
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE    **
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE   **
+* ARE  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE   **
+* LIABLE  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR         **
+* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF         **
+* SUBSTITUTE GOODS OR  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS    **
+* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN      **
+* CONTRACT, STRICT LIABILITY,OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       **
+* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE   **
+* POSSIBILITY OF SUCH DAMAGE.                                                  **
+*                                                                              **
+* To improve the quality of the software, users are encouraged to share        **
+* modifications, enhancements or bug fixes with Infineon Technologies AG.      **
+*                                                                              **
+* *******************************************************************************
+* **                                                                           **
+* **                                                                           **
+* ** PLATFORM : SIMetrix                                                       **
+* **                                                                           **
+* ** AUTHOR : Oliver Choe(IFKOR PSS SMD AP PSB TM2)                            **
+* **                                                                           **
+* ** Version 1.0.0  Initial version                                            **
+*
+* **                                                                           **
+* ** MODIFICATION DATE : Aug 3, 2021                                           **
+* **                                                                           **
+* *******************************************************************************/
+
+* Note that You must make some extra line(at least f11RowsKeep + colCount) in F11 window before start this script
+
+
+ClearMessageWindow
+ 
+Echo -----  Start  -----
+
+setgroup global
+DelGroup /all
+
+let schematics = ['model for plecs.sxsch', 'model for plecs Tj.sxsch']
+
+let scriptpatharray = SplitPath( ScriptName() )
+
+
+let scriptdirectory = scriptpatharray[0] & scriptpatharray[1] 
+
+* Note that SplitPath command returns root path as the first component of array and rest of other path as the second component of array
+
+
+let filename = scriptdirectory & 'cases.txt'
+let lines = Readfile( filename )
+
+
+let colCount = 30
+let f11RowsKeep = 10
+let TAB = EscapeString( '\t' )
+
+
+
+for c = 1 to colCount
+	
+
+	let RUN_TITLE = SelectColumns( lines[0], c, TAB )
+
+	echo \\ Run { RUN_TITLE } \\
+
+	let fLines = GetF11Lines()
+
+
+	for r = f11RowsKeep to f11RowsKeep + Length(lines) - 2
+
+		let fLines[r] = SelectColumns( lines[(r - f11RowsKeep) + 1], c, TAB )
+
+	next r
+
+	let success = WriteF11Lines(flines)
+	echo Copy to F11 Success = {success}
+
+	Netlist design.Net
+	Run design.net
+
+
+let VDS1 = Q1.drain - Q1.source
+let ID1 = Q1#D
+let P1 = ID1 * VDS1
+let E1 = integ(P1)
+
+let VDS2 = Q2.drain - Q2.source
+let ID2 = Q2#D
+let P2 = ID2 * VDS2
+let E2 = integ(P2)
+
+show /file {RUN_TITLE & '_data.txt} E2 P2 ID2 VDS2 E1 P1 ID1 VDS1
+
+next c
+
+
+Echo  
+Echo -----  Finish  -----

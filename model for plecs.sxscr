@@ -43,7 +43,9 @@
 * **                                                                           **
 * *******************************************************************************/
 
-* Note that You must make some extra line(at least f11RowsKeep + colCount) in F11 window before start this script
+
+
+* Note that You must make some extra lines after existing scripts(at least number of f11RowsKeep + number of parameters in cases.txt) in F11 window before start this script
 
 
 ClearMessageWindow

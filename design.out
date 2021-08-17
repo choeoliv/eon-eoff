@@ -1,6 +1,6 @@
 ********************************************************************************
 ***                                                                          ***
-*** SIMetrix/SIMPLIS with DVM Version 8.20 (x64) - 2021-08-11 오후 7:56    ***
+*** SIMetrix/SIMPLIS Pro Version 8.20 (x64) - 2021-08-16 오후 3:40         ***
 *** Platform: Windows 10                                                     ***
 *** Architecture: x64                                                        ***
 *** Serial Number: SX802052                                                  ***
@@ -183,7 +183,7 @@ Rx Tj 0 1k
 
 ********************************************************************************
 ***                                                                          ***
-*** Starting Transient analysis at 오후 7:56                               ***
+*** Starting Transient analysis at 오후 3:40                               ***
 ***                                                                          ***
 *** Analysis card: .TRAN 500u                                                ***
 ***                                                                          ***
@@ -232,7 +232,7 @@ Total iterations = 3187
 Transient iterations = 3060
 Transient timepoints = 1255
 Accepted timepoints = 1208
-Total analysis time = 0.625
+Total analysis time = 0.563
 Transient time = 0
 Matrix reordering time = 0
 L-U decomposition time = 0
@@ -240,8 +240,8 @@ Matrix solve time = 0
 Load time = 0
 Transient L-U decomp time = 0
 Transient solve time = 0
-Circuit build time = 0
-Simulator initialise time = 0.015
+Circuit build time = 0.016
+Simulator initialise time = 0.016
 Data write time = 0
 Convergence test time = 0
 LTE time = 0
@@ -259,6 +259,6 @@ Number of write buffer faults = 0
 Run statistics
 ==============
 
-Netlist read in time = 0.062
-Total run time = 0.718 seconds
-Analysis concluded 2021-08-11 오후 7:56
+Netlist read in time = 0.015
+Total run time = 0.594 seconds
+Analysis concluded 2021-08-16 오후 3:40

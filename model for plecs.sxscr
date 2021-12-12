@@ -99,16 +99,18 @@ for c = 1 to colCount
 
 
 let VDS1 = Q1.drain - Q1.source
+let VGS1 = Q1.gate - Q1.source
 let ID1 = Q1#D
 let P1 = ID1 * VDS1
 let E1 = integ(P1)
 
 let VDS2 = Q2.drain - Q2.source
+let VGS2 = Q2.gate - Q2.source
 let ID2 = Q2#D
 let P2 = ID2 * VDS2
 let E2 = integ(P2)
 
-show /file {RUN_TITLE & '_data.txt} E2 P2 ID2 VDS2 E1 P1 ID1 VDS1
+show /file {RUN_TITLE & '_data.txt} E2 P2 ID2 VGS2 VDS2 E1 P1 ID1 VGS1 VDS1
 
 next c
 

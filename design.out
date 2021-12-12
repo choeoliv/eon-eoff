@@ -1,15 +1,15 @@
-********************************************************************************
-***                                                                          ***
-*** SIMetrix/SIMPLIS Pro Version 8.20 (x64) - 2021-08-16 오후 3:40         ***
-*** Platform: Windows 10                                                     ***
-*** Architecture: x64                                                        ***
-*** Serial Number: SX802052                                                  ***
-*** User: Infineon Technologies AG (Global)                                  ***
-***                                                                          ***
-*** TITLE:   * C:\Users\choeoliv\Desktop\Eon Eoff\model for plecs.sxsch     ***
-*** NETLIST: C:\Users\choeoliv\Desktop\Eon Eoff\design.net                   ***
-***                                                                          ***
-********************************************************************************
+***************************************************************************************
+***                                                                                 ***
+*** SIMetrix/SIMPLIS Elite with DVM and Verilog for SIMPLIS Version 8.20a (x64) - 2021-12-12 오후 11:54***
+*** Platform: Windows 10                                                            ***
+*** Architecture: x64                                                               ***
+*** Serial Number:                                                                  ***
+*** User:                                                                           ***
+***                                                                                 ***
+*** TITLE:   * \\Mac\Home\Desktop\Git\Python\EonEoff\eon-eoff\model for plecs.sxsch***
+*** NETLIST: \\mac\Home\Desktop\Git\Python\EonEoff\eon-eoff\design.net              ***
+***                                                                                 ***
+***************************************************************************************
 
 ********************************************************************************
 ***                                                                          ***
@@ -183,7 +183,7 @@ Rx Tj 0 1k
 
 ********************************************************************************
 ***                                                                          ***
-*** Starting Transient analysis at 오후 3:40                               ***
+*** Starting Transient analysis at 오후 11:54                              ***
 ***                                                                          ***
 *** Analysis card: .TRAN 500u                                                ***
 ***                                                                          ***
@@ -228,11 +228,11 @@ vj           750m         1            1
 
 Nominal temperature = 27
 Operating temperature = 125
-Total iterations = 3187
-Transient iterations = 3060
-Transient timepoints = 1255
-Accepted timepoints = 1208
-Total analysis time = 0.563
+Total iterations = 3118
+Transient iterations = 2991
+Transient timepoints = 1221
+Accepted timepoints = 1169
+Total analysis time = 0.282
 Transient time = 0
 Matrix reordering time = 0
 L-U decomposition time = 0
@@ -240,8 +240,8 @@ Matrix solve time = 0
 Load time = 0
 Transient L-U decomp time = 0
 Transient solve time = 0
-Circuit build time = 0.016
-Simulator initialise time = 0.016
+Circuit build time = 0.015
+Simulator initialise time = 0.032
 Data write time = 0
 Convergence test time = 0
 LTE time = 0
@@ -253,12 +253,12 @@ PTA iterations = 0
 Number of matrix fill ins = 22
 Number of initial matrix elements = 164
 Circuit equations = 49
-State vector size = 128
+State vector size = 124
 Number of write buffer faults = 0
 
 Run statistics
 ==============
 
-Netlist read in time = 0.015
-Total run time = 0.594 seconds
-Analysis concluded 2021-08-16 오후 3:40
+Netlist read in time = 0.032
+Total run time = 0.329 seconds
+Analysis concluded 2021-12-12 오후 11:54
